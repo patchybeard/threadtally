@@ -8,3 +8,4 @@ charts/
 *.log
 config.py
 secrets.json
+GitHub_Token.txt
