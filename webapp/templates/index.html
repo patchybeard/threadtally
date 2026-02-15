@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ThreadTally</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>ThreadTally</h1>
+    <p class="muted">Local analysis tool. Two modes: Authorized API scrape + Offline import.</p>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="authorized">Authorized (PRAW)</button>
+      <button class="tab" data-tab="offline">Offline (No-API Helper)</button>
+      <button class="tab" data-tab="pipeline">Run Pipeline</button>
+    </div>
+
+    <div class="panel active" id="authorized">
+      <h2>Authorized scrape</h2>
+      <div class="row">
+        <label>Subreddit</label>
+        <input id="subreddit" value="BudgetAudiophile" />
+      </div>
+      <div class="row">
+        <label>Query (optional)</label>
+        <input id="query" placeholder="e.g., bookshelf speakers under 300" />
+      </div>
+      <div class="row">
+        <label>Limit</label>
+        <input id="limit" type="number" value="25" min="1" max="100" />
+      </div>
+      <div class="row-inline">
+        <label><input id="scrapeDebug" type="checkbox" /> Include debug + stack traces</label>
+      </div>
+      <button id="btnScrape">Scrape</button>
+      <p class="muted">Requires Reddit approval + classic OAuth script app credentials.</p>
+    </div>
+
+    <div class="panel" id="offline">
+      <h2>Offline (No-API Helper)</h2>
+      <p class="muted">
+        This mode avoids programmatic Reddit fetching. You paste thread links, ThreadTally generates the matching
+        <code>.json</code> links, opens them in batches, and you save/download the JSON files, then batch-upload them here.
+      </p>
+
+      <h3>Step 1 — Paste Reddit thread URLs (one at a time)</h3>
+
+      <div class="row">
+        <label>Paste URL</label>
+        <input id="urlPaste" placeholder="Paste a Reddit thread URL here…" />
+      </div>
+
+      <div class="row-inline">
+        <button id="btnCopyJson" disabled>Copy JSON links</button>
+        <button id="btnOpenJson" disabled>Open JSON tabs (batch)</button>
+        <button id="btnClearUrls" type="button">Clear list</button>
+      </div>
+
+      <div class="row">
+        <label>Open batch size</label>
+        <input id="openBatchSize" type="number" value="8" min="1" max="20" />
+      </div>
+
+      <p class="muted">
+        As you paste links, they’ll appear below automatically (deduped). Then open the JSON tabs in batches and save/copy the JSON.
+      </p>
+
+      <pre id="jsonLinks" style="min-height: 90px;"></pre>
+
+      <h3>Step 2 — Batch upload JSON files</h3>
+      <p class="muted">
+        Select multiple JSON files you saved/downloaded, then import. ThreadTally will optionally merge/dedupe into a combined raw file.
+      </p>
+
+      <div class="row">
+        <label>JSON files</label>
+        <input id="jsonFiles" type="file" accept=".json,application/json" multiple />
+      </div>
+
+      <div class="row-inline">
+        <label><input id="mergeOnImport" type="checkbox" checked /> Merge + dedupe threads on import</label>
+      </div>
+      <div class="row-inline">
+        <label><input id="runPipelineAfterImport" type="checkbox" checked /> Run pipeline after import</label>
+      </div>
+
+      <button id="btnImport">Import JSON files</button>
+      <pre id="importSummary" style="min-height: 90px;"></pre>
+    </div>
+
+    <div class="panel" id="pipeline">
+      <h2>Run analysis pipeline</h2>
+
+      <div class="row-inline">
+        <label><input id="useV2" type="checkbox" checked /> Use v2 scoring/ranking</label>
+      </div>
+
+      <div class="row-inline">
+        <button id="btnPipeline">Run Pipeline</button>
+
+        <label style="display:flex; gap:10px; align-items:center;">
+          Top N
+          <input id="topN" type="number" value="15" min="1" max="200" step="1" style="max-width:120px;" />
+        </label>
+
+        <button id="btnTopModels">Load Top Models</button>
+      </div>
+
+      <img id="scoreChart" class="chart" alt="Top models chart" />
+
+      <div class="row">
+        <label>Filter results</label>
+        <input id="modelFilter" placeholder="Type to filter (e.g., kef, elac, q150)..." />
+      </div>
+
+      <div class="table-wrap">
+        <table id="modelsTable" class="data-table">
+          <thead id="modelsThead"></thead>
+          <tbody id="modelsTbody"></tbody>
+        </table>
+      </div>
+
+      <p class="muted" id="modelsMeta"></p>
+    </div>
+
+    <h2>Logs</h2>
+    <pre id="log"></pre>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+/* webapp/static/styles.css */
+
+/* Base variables (light) */
+:root {
+  --bg: #f6f6f6;
+  --card: #ffffff;
+  --text: #111111;
+  --muted: #666666;
+  --border: #dddddd;
+  --panel: #fcfcfc;
+
+  --btn-bg: #111111;
+  --btn-text: #ffffff;
+  --btn-border: #111111;
+
+  --tab-bg: #fafafa;
+  --tab-text: #111111;
+  --tab-active-bg: #111111;
+  --tab-active-text: #ffffff;
+
+  --pre-bg: #0b1020;
+  --pre-text: #d8e2ff;
+
+  --shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+/* OS dark mode (automatic) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1115;
+    --card: #151a22;
+    --text: #e9eefc;
+    --muted: #a9b1c7;
+    --border: #2a3242;
+    --panel: #111620;
+
+    --btn-bg: #e9eefc;
+    --btn-text: #0f1115;
+    --btn-border: #e9eefc;
+
+    --tab-bg: #111620;
+    --tab-text: #e9eefc;
+    --tab-active-bg: #e9eefc;
+    --tab-active-text: #0f1115;
+
+    --pre-bg: #070a12;
+    --pre-text: #d8e2ff;
+
+    --shadow: 0 2px 12px rgba(0,0,0,.35);
+  }
+}
+
+body {
+  font-family: -apple-system, system-ui, sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  max-width: 980px;
+  margin: 24px auto;
+  background: var(--card);
+  padding: 20px 24px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+h1 { margin: 0 0 6px; }
+.muted { color: var(--muted); margin-top: 6px; }
+
+.tabs { display: flex; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+
+.tab {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: var(--tab-bg);
+  color: var(--tab-text);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: var(--tab-active-bg);
+  color: var(--tab-active-text);
+  border-color: var(--tab-active-bg);
+}
+
+.panel {
+  display: none;
+  border: 1px solid var(--border);
+  padding: 14px;
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.panel.active { display: block; }
+
+.row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 12px;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.row-inline {
+  margin: 10px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+input, textarea {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  cursor: pointer;
+}
+
+button:hover { opacity: .92; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+
+pre {
+  background: var(--pre-bg);
+  color: var(--pre-text);
+  padding: 12px;
+  border-radius: 10px;
+  overflow-x: auto;
+  min-height: 120px;
+}
+
+code {
+  background: rgba(127,127,127,.2);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.table-wrap {
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow-x: auto;
+  background: var(--card);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.data-table th, .data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.data-table th {
+  position: sticky;
+  top: 0;
+  background: var(--panel);
+  text-align: left;
+  user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.data-table tr:hover td {
+  background: rgba(127,127,127,.08);
+}
+
+.data-table td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.chart {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+  margin-top: 12px;
+}
+/* --- ThreadTally table polish --- */
+
+/* Slightly tighter table density */
+.data-table th,
+.data-table td {
+  padding: 8px 10px;
+}
+
+/* Keep model names on one line and prevent giant rows */
+.data-table td.model {
+  white-space: nowrap;
+  max-width: 420px;          /* adjust if you want wider/narrower */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* If you want the 1st or 2nd column to behave as model even without class */
+.data-table td:nth-child(2) {
+  white-space: nowrap;
+  max-width: 420px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Better visual cue for sortable headers */
+.data-table th:hover {
+  background: rgba(127,127,127,.14);
+}
